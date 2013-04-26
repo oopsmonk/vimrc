@@ -52,7 +52,7 @@ endif
 
 set clipboard=unnamed	" yank to the system register (*) by default
 set showmatch		" Cursor shows matching ) and }
-set showmode		" Show current mode
+"set showmode		" Show current mode
 set wildchar=<TAB>	" start wild expansion in the command line using <TAB>
 set wildmenu            " wild char completion menu
 
@@ -75,31 +75,43 @@ set tm=500
 
 " TAB setting{
    set expandtab        "replace <TAB> with spaces
-   set softtabstop=3 
-   set shiftwidth=3 
+   set softtabstop=4 
+   set shiftwidth=4 
 
    au FileType Makefile set noexpandtab
 "}      							
 
 " status line {
+"set laststatus=2
+"set statusline=\ %{HasPaste()}%<%-15.25(%f%)%m%r%h\ %w\ \ 
+"set statusline+=\ \ \ [%{&ff}/%Y] 
+"set statusline+=\ \ \ %<%20.30(%{hostname()}:%{CurDir()}%)\ 
+"set statusline+=%=%-10.(%l,%c%V%)\ %p%%/%L
+"
+"function! CurDir()
+"    let curdir = substitute(getcwd(), $HOME, "~", "")
+"    return curdir
+"endfunction
+"
+"function! HasPaste()
+"    if &paste
+"        return '[PASTE]'
+"    else
+"        return ''
+"    endif
+"endfunction
+
 set laststatus=2
-set statusline=\ %{HasPaste()}%<%-15.25(%f%)%m%r%h\ %w\ \ 
-set statusline+=\ \ \ [%{&ff}/%Y] 
-set statusline+=\ \ \ %<%20.30(%{hostname()}:%{CurDir()}%)\ 
-set statusline+=%=%-10.(%l,%c%V%)\ %p%%/%L
-
-function! CurDir()
-    let curdir = substitute(getcwd(), $HOME, "~", "")
-    return curdir
-endfunction
-
-function! HasPaste()
-    if &paste
-        return '[PASTE]'
-    else
-        return ''
-    endif
-endfunction
+set statusline=%4*%<\ %1*[%F]
+set statusline+=%4*\ %5*[%{&encoding}, " encoding
+set statusline+=%{&fileformat}]%m " file format
+set statusline+=%4*%=\ %6*%y%4*\ %3*%l%4*,\ %3*%c%4*\ \<\ %2*%P%4*\ \>
+highlight User1 ctermfg=red
+highlight User2 term=underline cterm=underline ctermfg=green
+highlight User3 term=underline cterm=underline ctermfg=yellow
+highlight User4 term=underline cterm=underline ctermfg=white
+highlight User5 ctermfg=cyan
+highlight User6 ctermfg=white
 
 "}
 
@@ -272,67 +284,67 @@ endfun
 "--------------------------------------------------------------------------- 
 
 
-" ------- vim-latex - many latex shortcuts and snippets {
-
-" IMPORTANT: win32 users will need to have 'shellslash' set so that latex
-" can be called correctly.
-set shellslash
-set grepprg=grep\ -nH\ $*
-" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
-" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
-" The following changes the default filetype back to 'tex':
-let g:tex_flavor='latex'
-
-"}
-
-
-" --- AutoClose - Inserts matching bracket, paren, brace or quote 
-" fixed the arrow key problems caused by AutoClose
-if !has("gui_running")	
-   set term=linux
-   imap OA <ESC>ki
-   imap OB <ESC>ji
-   imap OC <ESC>li
-   imap OD <ESC>hi
-
-   nmap OA k
-   nmap OB j
-   nmap OC l
-   nmap OD h
-endif
-
-
-
-" --- Command-T
-let g:CommandTMaxHeight = 15
-
-" --- SuperTab
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
-let g:SuperTabContextDiscoverDiscovery = ["&completefunc:<c-x><c-u>", "&omnifunc:<c-x><c-o>"]
-
-
-" --- EasyMotion
-"let g:EasyMotion_leader_key = '<Leader>m' " default is <Leader>w
-hi link EasyMotionTarget ErrorMsg
-hi link EasyMotionShade  Comment
-
-
-" --- TagBar
-" toggle TagBar with F7
-nnoremap <silent> <F7> :TagbarToggle<CR> 
-" set focus to TagBar when opening it
-let g:tagbar_autofocus = 1
-
-" --- PowerLine
-" let g:Powerline_symbols = 'fancy' " require fontpatcher
+"" ------- vim-latex - many latex shortcuts and snippets {
 "
-
-" --- SnipMate
-let g:snipMateAllowMatchingDot = 0
-
-" --- coffee-script
-au BufWritePost *.coffee silent CoffeeMake! -b | cwindow | redraw! " recompile coffee scripts on write
-
-" --- vim-gitgutter
-let g:gitgutter_enabled = 1
+"" IMPORTANT: win32 users will need to have 'shellslash' set so that latex
+"" can be called correctly.
+"set shellslash
+"set grepprg=grep\ -nH\ $*
+"" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
+"" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+"" The following changes the default filetype back to 'tex':
+"let g:tex_flavor='latex'
+"
+""}
+"
+"
+"" --- AutoClose - Inserts matching bracket, paren, brace or quote 
+"" fixed the arrow key problems caused by AutoClose
+"if !has("gui_running")	
+"   set term=linux
+"   imap OA <ESC>ki
+"   imap OB <ESC>ji
+"   imap OC <ESC>li
+"   imap OD <ESC>hi
+"
+"   nmap OA k
+"   nmap OB j
+"   nmap OC l
+"   nmap OD h
+"endif
+"
+"
+"
+"" --- Command-T
+"let g:CommandTMaxHeight = 15
+"
+"" --- SuperTab
+"let g:SuperTabDefaultCompletionType = "context"
+"let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
+"let g:SuperTabContextDiscoverDiscovery = ["&completefunc:<c-x><c-u>", "&omnifunc:<c-x><c-o>"]
+"
+"
+"" --- EasyMotion
+""let g:EasyMotion_leader_key = '<Leader>m' " default is <Leader>w
+"hi link EasyMotionTarget ErrorMsg
+"hi link EasyMotionShade  Comment
+"
+"
+"" --- TagBar
+"" toggle TagBar with F7
+"nnoremap <silent> <F7> :TagbarToggle<CR> 
+"" set focus to TagBar when opening it
+"let g:tagbar_autofocus = 1
+"
+"" --- PowerLine
+"" let g:Powerline_symbols = 'fancy' " require fontpatcher
+""
+"
+"" --- SnipMate
+"let g:snipMateAllowMatchingDot = 0
+"
+"" --- coffee-script
+"au BufWritePost *.coffee silent CoffeeMake! -b | cwindow | redraw! " recompile coffee scripts on write
+"
+"" --- vim-gitgutter
+"let g:gitgutter_enabled = 1

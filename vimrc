@@ -255,6 +255,30 @@ autocmd BufNewFile,BufRead *.sass             set ft=sass.css
 
 " Markdown extention
 autocmd BufRead,BufNewFile *.md set filetype=markdown
+" Auto Pandoc function
+function! AutoPandoc()
+    "check if pandoc exist
+    if filereadable("/usr/bin/pandoc")
+        " get current directory path and append CSS file
+        let s:csspath=expand("%:p:h")."/pandoc-markdownpad-github.css"
+        let s:outPut=expand("%:p:h")."/out.html"
+        if filereadable(s:csspath)
+            "remove old output
+            if filereadable(s:outPut)
+                let rmOut="!rm -rf ".s:outPut." && sync"
+                silent execute rmOut
+            endif
+
+            " run command
+            let runCmd="!pandoc -H ".s:csspath." -s ".expand("%:p")." -o ".s:outPut
+            echo "Auto generated HTML at ".s:outPut
+            silent execute runCmd
+        endif
+    endif
+endfunction
+
+"Audo gen html for markdown
+autocmd BufWritePost *.markdown,*md call AutoPandoc()
 
 "--------------------------------------------------------------------------- 
 " ENCODING SETTINGS

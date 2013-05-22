@@ -60,7 +60,7 @@ set wildmenu            " wild char completion menu
 set wildignore=*.o,*.class,*.pyc
 
 set autoindent		" auto indentation
-set incsearch		" incremental search
+"set incsearch		" incremental search
 set nobackup		" no *~ backup files
 set copyindent		" copy the previous indentation on autoindenting
 set ignorecase		" ignore case when searching
@@ -252,6 +252,9 @@ set cot-=preview "disable doc preview in omnicomplete
 " make CSS omnicompletion work for SASS and SCSS
 autocmd BufNewFile,BufRead *.scss             set ft=scss.css
 autocmd BufNewFile,BufRead *.sass             set ft=sass.css
+
+" Markdown extention
+autocmd BufRead,BufNewFile *.md set filetype=markdown
 
 "--------------------------------------------------------------------------- 
 " ENCODING SETTINGS

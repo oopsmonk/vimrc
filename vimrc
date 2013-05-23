@@ -255,31 +255,43 @@ autocmd BufNewFile,BufRead *.sass             set ft=sass.css
 
 " Markdown extention
 autocmd BufRead,BufNewFile *.md set filetype=markdown
+"Auto Pandoc switch on/off
+function! OnPandoc()
+    let b:auto_doc
+endfunction
+
+function! OffPandoc()
+    unlet b:auto_doc
+endfunction
+
 " Auto Pandoc function
 function! AutoPandoc()
-    "check if pandoc exist
-    if filereadable("/usr/bin/pandoc")
-        " get current directory path and append CSS file
-        let l:csspath=expand("%:p:h")."/pandoc-markdownpad-github.css"
-        let l:outPut=expand("%:p:h")."/out.html"
-        if filereadable(l:csspath)
-            "remove old output
-            if filereadable(l:outPut)
-                let l:rmOut="!rm -rf ".l:outPut." && sync"
-                silent execute l:rmOut
-            endif
+    "check if enable this function
+    if exists("b:auto_doc")
+        "check if pandoc exist
+        if filereadable("/usr/bin/pandoc")
+            " get current directory path and append CSS file
+            let l:csspath=expand("%:p:h")."/pandoc-markdownpad-github.css"
+            let l:outPut=expand("%:p:h")."/out.html"
+            if filereadable(l:csspath)
+                "remove old output
+                if filereadable(l:outPut)
+                    let l:rmOut="!rm -rf ".l:outPut." && sync"
+                    silent execute l:rmOut
+                endif
 
-            " run command
-            let l:runCmd="!pandoc -H ".l:csspath." -s ".expand("%:p")." -o ".l:outPut
-            echo "Auto generated HTML at ".l:outPut
-            silent execute l:runCmd
+                " run command
+                let l:runCmd="!pandoc -H ".l:csspath." -s ".expand("%:p")." -o ".l:outPut
+                echo "Auto generated HTML at ".l:outPut
+                silent execute l:runCmd
+            endif
         endif
     endif
 endfunction
 
 "Audo gen html for markdown
+let b:auto_doc="ture"
 autocmd BufWritePost *.markdown,*md call AutoPandoc()
-
 "--------------------------------------------------------------------------- 
 " ENCODING SETTINGS
 "--------------------------------------------------------------------------- 

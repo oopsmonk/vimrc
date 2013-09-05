@@ -142,13 +142,6 @@ PLUGINS
 
 * [Git Gutter](https://github.com/airblade/vim-gitgutter): shows a git diff in the 'gutter' (sign column). It shows whether each line has been added, modified, and where lines have been removed.
 
-* [Taglist](https://github.com/vim-scripts/taglist.vim): The "Tag List" plugin is a source code browser for the Vim editor.
-
-    Useful commands:  
-    `:Tlist` Open Taglist. 
-    `:TlistClose` Clode Taglist.  
-    `<ctrl-w><ctrl-w>` Switch between Taglist and source code window.
-
 Language specific supports
 --------------------------
 
